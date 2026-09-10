@@ -1,0 +1,29 @@
+# default behavior: auto-detect text files and force LF line endings
+* text=auto eol=lf
+
+# source code files
+*.py text eol=lf
+*.java text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.cpp text eol=lf
+*.c text eol=lf
+*.h text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+
+# scripts with strict line ending requirements
+*.sh text eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# binary formats
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar.gz binary
+*.jar binary
