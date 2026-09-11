@@ -1,0 +1,48 @@
+{
+  "name": "excalidraw_tools",
+  "version": "1.0.0",
+  "description": "Lightweight Node.js toolkit for programmatically generating Excalidraw diagrams, Obsidian notes, and high-DPI HTML/SVG screenshots.",
+  "main": "./index.cjs",
+  "module": "./index.mjs",
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "node --input-type=module -e \"import { ExcalidrawDoc } from './index.mjs'; console.log('ESM OK');\" && node -e \"const { ExcalidrawDoc } = require('./index.cjs'); console.log('CJS OK');\"",
+    "screenshot": "node tools/capture_screenshot.mjs",
+    "extract": "node tools/extract_and_screenshot.mjs",
+    "wireframe": "node examples/website_to_wireframe.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JanDalhuysen/excalidraw_tools.git"
+  },
+  "keywords": [
+    "excalidraw",
+    "obsidian",
+    "diagrams",
+    "generator",
+    "wireframe",
+    "screenshot"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/JanDalhuysen/excalidraw_tools/issues"
+  },
+  "homepage": "https://github.com/JanDalhuysen/excalidraw_tools#readme",
+  "devDependencies": {
+    "prettier": "^3.9.6"
+  },
+  "dependencies": {
+    "puppeteer-core": "^25.10.0"
+  }
+}
