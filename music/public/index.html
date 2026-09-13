@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini DAW • Piano Roll</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="daw-header">
+      <div class="header-left">
+        <div class="logo">
+          <span class="logo-icon">🎹</span>
+          <span class="logo-text">Mini DAW</span>
+        </div>
+
+        <!-- Transport Controls -->
+        <div class="transport-group">
+          <button id="btnPlay" class="transport-btn btn-play" title="Play / Pause (Spacebar)"><span class="icon">▶</span> Play</button>
+          <button id="btnStop" class="transport-btn" title="Stop (Return to start)"><span class="icon">⏹</span> Stop</button>
+          <button id="btnLoop" class="transport-btn active" title="Toggle Loop"><span class="icon">🔁</span> Loop</button>
+        </div>
+
+        <!-- Tempo Control -->
+        <div class="tempo-group">
+          <label for="tempoInput">BPM</label>
+          <input type="number" id="tempoInput" min="40" max="240" value="110" />
+          <input type="range" id="tempoSlider" min="40" max="240" value="110" />
+        </div>
+
+        <!-- Track Selector: Melody (Green) vs Bass (Purple) -->
+        <div class="track-selector">
+          <span class="selector-label">Place:</span>
+          <button id="btnSelectMelody" class="track-btn melody-btn active"><span class="color-dot green"></span> Melody (Green)</button>
+          <button id="btnSelectBass" class="track-btn bass-btn"><span class="color-dot purple"></span> Bass (Purple)</button>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <input type="file" id="fileInput" accept=".mid,.midi,.musicxml,.xml" style="display: none" />
+        <button id="btnImport" class="action-btn import-btn" title="Import MIDI (.mid) or MusicXML (.musicxml / .xml) from MuseScore, Audiverse, etc.">📂 Import (MIDI / MusicXML)</button>
+        <button id="btnLoadDemo" class="action-btn" title="Load the demo song shown in the picture">✨ Load Demo Song</button>
+        <button id="btnLoadBaaBaa" class="action-btn" title="Load Baa Baa Black Sheep nursery rhyme">🐑 Baa Baa Black Sheep</button>
+        <button id="btnClear" class="action-btn danger" title="Clear all notes">🗑 Clear</button>
+        <button id="btnExportWav" class="action-btn export-btn" title="Export as Stereo WAV file">🎧 Export WAV</button>
+        <button id="btnExportMidi" class="action-btn export-btn" title="Export as Standard MIDI (.mid) file">🎹 Export MIDI</button>
+        <button id="btnExportSheet" class="action-btn export-btn sheet-btn" title="Generate interactive Sheet Music for Obsidian / Excalidraw">🎼 Export Sheet Music</button>
+      </div>
+    </header>
+
+    <!-- Help & Status Hint Bar -->
+    <div class="hint-bar">
+      <div class="hints">
+        <span>🖱️ <strong>Left-click</strong> empty slot to add note</span>
+        <span>↔️ <strong>Drag right edge</strong> to change note length</span>
+        <span>✋ <strong>Drag note</strong> to move pitch/time</span>
+        <span>❌ <strong>Right-click</strong> or <strong>Double-click</strong> to delete note</span>
+        <span>🎹 <strong>Click piano keys</strong> on the left to preview notes</span>
+        <span>⌨️ <strong>Spacebar</strong> to Play/Pause</span>
+      </div>
+      <div class="headphones-badge" title="Melody and Bass have distinct stereo separation for headphones!">🎧 Stereo Headphone Enhanced</div>
+    </div>
+
+    <!-- Main DAW Piano Roll Workspace -->
+    <main class="daw-workspace">
+      <!-- Top Timeline Ruler -->
+      <div class="ruler-wrapper">
+        <div class="ruler-corner"></div>
+        <div class="ruler-scroll-container" id="rulerScrollContainer">
+          <canvas id="rulerCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Middle: Piano Keys + Grid Area -->
+      <div class="roll-wrapper">
+        <!-- Piano Keys Sidebar -->
+        <div class="keys-scroll-container" id="keysScrollContainer">
+          <div id="pianoKeys" class="piano-keys"></div>
+        </div>
+
+        <!-- Notes Grid Area -->
+        <div class="grid-scroll-container" id="gridScrollContainer">
+          <div class="grid-layer" id="gridLayer">
+            <!-- Background canvas for grid lines -->
+            <canvas id="gridCanvas"></canvas>
+            <!-- Playhead line -->
+            <div id="playhead" class="playhead">
+              <div class="playhead-handle"></div>
+            </div>
+            <!-- Note elements container -->
+            <div id="notesContainer" class="notes-container"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="dropOverlay" class="drop-overlay">
+      <div class="drop-modal">
+        <span class="drop-icon">🎵</span>
+        <h3>Drop your MIDI or MusicXML file here</h3>
+        <p>Works with files exported from MuseScore, Audiverse, or any music software</p>
+      </div>
+    </div>
+
+    <script src="audio.js"></script>
+    <script src="importer.js"></script>
+    <script src="excalidraw_sheet.js"></script>
+    <script src="app.js"></script>
+    <script src="live_sync.js"></script>
+  </body>
+</html>

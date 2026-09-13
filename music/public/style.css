@@ -1,0 +1,620 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+:root {
+  /* Atom One Dark base colors */
+  --one-dark-bg: #282c34;
+  --one-dark-green: #98c379;
+  --one-dark-red: #e06c75;
+  --one-dark-blue: #61afef;
+  --one-dark-cyan: #56b6c2;
+  --one-dark-yellow: #e5c07b;
+
+  /* Derived UI colors from One Dark palette */
+  --bg-main: var(--one-dark-bg);
+  --bg-panel: #2c313a;
+  --bg-border: #3b4048;
+  --bg-hover: #3a3f4b;
+  --bg-active: #454b58;
+
+  /* Piano keys */
+  --key-white: #abb2bf;
+  --key-white-hover: #9da5b3;
+  --key-white-text: #282c34;
+  --key-black: #1e2127;
+  --key-black-hover: #3a3f4b;
+  --key-black-text: #5c6370;
+  --key-border: #2c313a;
+
+  /* Grid */
+  --grid-line: #3b4048;
+  --grid-bar-line: #4b5263;
+
+  /* Track colors (melody=green, bass=blue from One Dark) */
+  --melody-color: var(--one-dark-green);
+  --melody-border: #7ebd5e;
+  --bass-color: var(--one-dark-blue);
+  --bass-border: #4d9be8;
+
+  /* Ruler & Playhead (yellow) */
+  --ruler-bg: var(--one-dark-yellow);
+  --ruler-text: #282c34;
+  --playhead-color: var(--one-dark-yellow);
+
+  /* Text */
+  --text-light: #abb2bf;
+  --text-dim: #5c6370;
+  --text-white: #ffffff;
+
+  /* Transport buttons */
+  --transport-bg: #21252b;
+  --transport-hover: #2c313a;
+  --transport-play-active: var(--one-dark-green);
+  --transport-active-bg: #3b4048;
+  --transport-active-text: var(--one-dark-cyan);
+
+  /* Inputs */
+  --input-bg: #21252b;
+  --input-border: #3b4048;
+  --input-text: #abb2bf;
+
+  /* Action buttons */
+  --action-bg: #2c313a;
+  --action-hover: #3a3f4b;
+  --action-danger-hover: #5a1e1e;
+  --action-danger-border: var(--one-dark-red);
+  --action-export-bg: #203447;
+  --action-export-border: var(--one-dark-blue);
+  --action-export-text: #93c5fa;
+  --action-export-hover: #2a455e;
+  --action-sheet-bg: #2d2040;
+  --action-sheet-border: var(--one-dark-blue);
+  --action-sheet-text: #bda9e8;
+  --action-sheet-hover: #3d2a55;
+  --action-import-bg: #2c313a;
+  --action-import-border: #3b4048;
+  --action-import-text: #abb2bf;
+  --action-import-hover: #3a3f4b;
+
+  /* Hints */
+  --hint-bg: #1e2127;
+  --hint-strong: #abb2bf;
+  --headphones-color: var(--one-dark-yellow);
+
+  /* Ruler corner */
+  --ruler-corner-bg: #21252b;
+  --ruler-corner-border: #181a1f;
+
+  /* Piano key border */
+  --piano-key-border: #2c313a;
+
+  /* Drop overlay */
+  --drop-overlay-bg: rgba(24, 28, 33, 0.92);
+  --drop-modal-bg: #282c34;
+  --drop-border: var(--one-dark-green);
+  --drop-text: #abb2bf;
+  --drop-subtext: #5c6370;
+}
+
+body {
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-light);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ========================================================
+   Header Toolbar
+   ======================================================== */
+.daw-header {
+  height: 52px;
+  background-color: var(--bg-panel);
+  border-bottom: 1px solid var(--bg-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-white);
+  margin-right: 8px;
+}
+
+.transport-group {
+  display: flex;
+  gap: 4px;
+  background-color: var(--transport-bg);
+  padding: 3px;
+  border-radius: 6px;
+  border: 1px solid var(--bg-border);
+}
+
+.transport-btn {
+  background: transparent;
+  color: var(--text-light);
+  border: none;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.transport-btn:hover {
+  background: var(--transport-hover);
+}
+
+.transport-btn.btn-play.playing {
+  background: var(--transport-play-active);
+  color: var(--text-white);
+}
+
+.transport-btn.active {
+  background: var(--transport-active-bg);
+  color: var(--transport-active-text);
+}
+
+.tempo-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--transport-bg);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--bg-border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.tempo-group input[type="number"] {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-text);
+  width: 54px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.tempo-group input[type="range"] {
+  width: 70px;
+  cursor: pointer;
+  accent-color: var(--playhead-color);
+}
+
+.track-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--transport-bg);
+  padding: 3px;
+  border-radius: 6px;
+  border: 1px solid var(--bg-border);
+}
+
+.selector-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-weight: 600;
+  padding-left: 6px;
+}
+
+.track-btn {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-light);
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+
+.color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.color-dot.green {
+  background-color: var(--melody-color);
+}
+.color-dot.blue {
+  background-color: var(--bass-color);
+}
+
+.track-btn.melody-btn.active {
+  background: var(--action-export-bg);
+  border-color: var(--melody-color);
+  color: var(--melody-color);
+}
+
+.track-btn.bass-btn.active {
+  background: var(--action-export-bg);
+  border-color: var(--bass-color);
+  color: var(--action-export-text);
+}
+
+.action-btn {
+  background: var(--action-bg);
+  color: var(--text-light);
+  border: 1px solid var(--bg-border);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.action-btn:hover {
+  background: var(--action-hover);
+}
+
+.action-btn.danger:hover {
+  background: var(--action-danger-hover);
+  border-color: var(--action-danger-border);
+}
+
+.action-btn.export-btn {
+  background: var(--action-export-bg);
+  border-color: var(--action-export-border);
+  color: var(--action-export-text);
+}
+
+.action-btn.export-btn:hover {
+  background: var(--action-export-hover);
+}
+
+.action-btn.sheet-btn {
+  background: var(--action-sheet-bg);
+  border-color: var(--action-sheet-border);
+  color: var(--action-sheet-text);
+}
+
+.action-btn.sheet-btn:hover {
+  background: var(--action-sheet-hover);
+  border-color: var(--action-sheet-border);
+}
+
+.action-btn.import-btn {
+  background: var(--action-import-bg);
+  border-color: var(--action-import-border);
+  color: var(--action-import-text);
+}
+
+.action-btn.import-btn:hover {
+  background: var(--action-import-hover);
+  color: var(--text-white);
+}
+
+/* Drag and Drop Overlay */
+.drop-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--drop-overlay-bg);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.drop-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drop-modal {
+  background: var(--drop-modal-bg);
+  border: 2px dashed var(--drop-border);
+  border-radius: 12px;
+  padding: 40px 60px;
+  text-align: center;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+}
+
+.drop-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.drop-modal h3 {
+  font-size: 20px;
+  color: var(--drop-text);
+  margin-bottom: 8px;
+}
+
+.drop-modal p {
+  font-size: 13px;
+  color: var(--drop-subtext);
+}
+
+/* ========================================================
+   Hints / Status Bar
+   ======================================================== */
+.hint-bar {
+  height: 28px;
+  background: var(--hint-bg);
+  border-bottom: 1px solid var(--bg-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 11.5px;
+  color: var(--text-dim);
+}
+
+.hints {
+  display: flex;
+  gap: 16px;
+}
+
+.hints strong {
+  color: var(--hint-strong);
+}
+
+.headphones-badge {
+  color: var(--headphones-color);
+  font-weight: 600;
+  font-size: 11px;
+}
+
+/* ========================================================
+   Workspace: Ruler + Piano Keys + Grid
+   ======================================================== */
+.daw-workspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Top Ruler */
+.ruler-wrapper {
+  height: 28px;
+  background: var(--ruler-bg);
+  display: flex;
+  border-bottom: 1px solid #000;
+  flex-shrink: 0;
+}
+
+.ruler-corner {
+  width: 64px;
+  background: var(--ruler-corner-bg);
+  border-right: 1px solid var(--ruler-corner-border);
+  flex-shrink: 0;
+}
+
+.ruler-scroll-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+#rulerCanvas {
+  display: block;
+}
+
+/* Middle Piano Roll area */
+.roll-wrapper {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Left Piano Keyboard */
+.keys-scroll-container {
+  width: 64px;
+  background: var(--bg-main);
+  border-right: 1px solid var(--piano-key-border);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.piano-keys {
+  position: relative;
+  width: 100%;
+}
+
+.piano-key {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border-bottom: 1px solid var(--piano-key-border);
+  box-sizing: border-box;
+}
+
+.piano-key.white {
+  background: var(--key-white);
+  color: var(--key-white-text);
+  z-index: 1;
+}
+
+.piano-key.white:hover,
+.piano-key.white.active {
+  background: var(--key-white-hover);
+}
+
+.piano-key.black {
+  background: var(--key-black);
+  color: var(--key-black-text);
+  z-index: 2;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  border-left: 1px solid var(--piano-key-border);
+}
+
+.piano-key.black:hover,
+.piano-key.black.active {
+  background: var(--key-black-hover);
+}
+
+/* Grid Area */
+.grid-scroll-container {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  background: var(--bg-main);
+}
+
+.grid-layer {
+  position: relative;
+  cursor: crosshair;
+}
+
+#gridCanvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+/* Playhead */
+.playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--playhead-color);
+  z-index: 20;
+  pointer-events: none;
+  transform: translateX(-50%);
+  left: 0px;
+}
+
+.playhead-handle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  background-color: var(--playhead-color);
+  clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+}
+
+/* Notes Container */
+.notes-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: auto;
+}
+
+/* Note element */
+.note-block {
+  position: absolute;
+  border-radius: 3px;
+  cursor: grab;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  transition: filter 0.1s;
+}
+
+.note-block:hover {
+  filter: brightness(1.2);
+}
+
+.note-block:active {
+  cursor: grabbing;
+}
+
+.note-block.melody {
+  background-color: var(--melody-color);
+  border: 1px solid var(--melody-border);
+}
+
+.note-block.bass {
+  background-color: var(--bass-color);
+  border: 1px solid var(--bass-border);
+}
+
+/* Internal sustain line like in the reference image */
+.note-sustain-line {
+  position: absolute;
+  left: 6px;
+  right: 8px;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+/* Resize handle on right edge */
+.note-resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  cursor: ew-resize;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.note-resize-handle:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Active playing note visual pulse */
+.note-block.playing {
+  filter: brightness(1.4) drop-shadow(0 0 6px rgba(255, 255, 255, 0.7));
+}
